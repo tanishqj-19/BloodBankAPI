@@ -49,7 +49,7 @@ This model represents a blood donation entry in the system. It contains the foll
 
 
 2. **Get all blood bank entries**
-   - `GET https://localhost:7065/api/BloodBank`
+   - `GET /api/BloodBank`
      ![image](https://github.com/user-attachments/assets/ae27f396-aec4-472a-9fc6-69b696be1462)
 
       ---
@@ -159,6 +159,41 @@ This model represents a blood donation entry in the system. It contains the foll
 
 
 
+### Sort Functionality
+
+1. **Sort By Blood Type**
+   - `GET /api/BloodBank/sort?by=bloodtype&order=desc`
+   - params: Ascending By Default, Can be given descending value as well...
+   - ..........................................................  Ascending  ..........................................................
+
+   ![image](https://github.com/user-attachments/assets/9819bf11-b318-4f64-98f6-464092d91142)
+
+   ---
+
+   - ..........................................................  Descending  ..........................................................
+
+
+   ![image](https://github.com/user-attachments/assets/81c3988a-b6cd-4c72-b9b9-bc6b6f6fdacf)
+
+
+
+
+2. **Sort By Collection Date**
+   - `GET /api/BloodBank/sort?by=CollectionDate&order=desc`
+   - ..........................................................  Descending  ..........................................................
+
+     ![image](https://github.com/user-attachments/assets/309aa05e-af5b-45e5-b94f-5fcf9d005ffa)
+
+   - ..........................................................  Ascending  ..........................................................
+
+     ![image](https://github.com/user-attachments/assets/e0113e45-cd68-4d77-a7e9-cc307fe8b05c)
+
+
+### Filter Functionality
+
+
+
+  
 ## Setup Instructions
 
 ### Prerequisites
