@@ -107,23 +107,39 @@ This model represents a blood donation entry in the system. It contains the foll
 ### Pagination
 
 1. **Get paginated list of blood entries**
-   - `GET /api/bloodbank?page={pageNumber}&size={pageSize}`
+   - `GET /api/bloodbank/page?page={pageNumber}&size={pageSize}`
    - Example:
-     - `GET /api/bloodbank?page=1&size=5`
+     - `GET /api/bloodbank/page?page=1&size=5`
+    
+   ![image](https://github.com/user-attachments/assets/67f06d9c-7f66-4420-b912-955677bfe427)
+
+   ---
+
+   ![image](https://github.com/user-attachments/assets/a3dffe25-277b-467b-81a8-fb276df19f90)
+
+
 
 ### Search Functionality
 
 1. **Search blood entries by blood type**
    - `GET /api/bloodbank/search?bloodType={bloodType}`
    - Example:
-     - `GET /api/bloodbank/search?bloodType=O+`
+     - `GET /api/bloodbank/search?bloodType=O-`
 
-2. **Search blood entries by status**
+   ![image](https://github.com/user-attachments/assets/05fe58a9-ebd1-4ff9-afd1-a7023be6b177)
+
+   ---
+
+   ![image](https://github.com/user-attachments/assets/45fd9b85-8073-4ac5-ad28-e5b84c264c91)
+
+
+
+3. **Search blood entries by status**
    - `GET /api/bloodbank/search?status={status}`
    - Example:
      - `GET /api/bloodbank/search?status=Available`
 
-3. **Search blood entries by donor name**
+4. **Search blood entries by donor name**
    - `GET /api/bloodbank/search?donorName={donorName}`
    - Example:
      - `GET /api/bloodbank/search?donorName=John`
