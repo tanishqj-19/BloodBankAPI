@@ -6,7 +6,7 @@ namespace BloodBankAPI.Models
         public int Id { get; set; }
         [StringLength(200)] public required string DonorName { get; set; }
         [Range(18, 65)] public int Age { get; set; } // Min Age: 18 , MaxAge 65
-        [RegularExpression("^(A|B|AB|O)[+-]$", ErrorMessage = "Blood Type Should be Valid")] public required string BloodType { get; set; }
+        public required string BloodType { get; set; }
         public string ContactInfo { get; set; } = string.Empty;
         [Range(1, long.MaxValue)] public decimal Quantity { get; set; }
         public DateTime CollectionDate { get; set; }

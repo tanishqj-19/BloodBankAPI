@@ -1,8 +1,10 @@
 ﻿using BloodBankAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Net.Cache;
+using System.Text.RegularExpressions;
 
 namespace BloodBankAPI.Controllers
 {
@@ -23,6 +25,10 @@ namespace BloodBankAPI.Controllers
                 new BloodBankEntry { Id = 9, DonorName = "Ian White", Age = 32, BloodType = "O+", ContactInfo = "8888888888", Quantity = 1.7m, CollectionDate = new DateTime(2024, 9, 5), ExpirationDate = new DateTime(2025, 3, 5), Status = "Available" },
                 new BloodBankEntry { Id = 10, DonorName = "Jack Black", Age = 45, BloodType = "A-", ContactInfo = "7777777777", Quantity = 1.4m, CollectionDate = new DateTime(2024, 1, 10), ExpirationDate = new DateTime(2024, 5, 10), Status = "Expired" }
             };
+        private static Regex BloodTypeRegex = new Regex(@"^(A|B|AB|O)[+-]$");
+
+
+
 
 
         // Getting All Entries
@@ -31,7 +37,7 @@ namespace BloodBankAPI.Controllers
         {
             if (bloodEntries == null || !bloodEntries.Any())
             {
-                return NoContent();
+                return NotFound("No blood entries found.");
             }
             return Ok(bloodEntries);
         }
@@ -44,7 +50,7 @@ namespace BloodBankAPI.Controllers
             var queryBloodEntry = bloodEntries.Find(currEntry => currEntry.Id == Id);
 
             if (queryBloodEntry == null)
-            { return NoContent(); }
+            { return NotFound($"Entry with ID {Id} not found."); }
             return Ok(queryBloodEntry);
         }
 
@@ -52,9 +58,14 @@ namespace BloodBankAPI.Controllers
         [HttpPost]
         public IActionResult AddBloodEntryById(BloodBankEntry newBloodEntry)
         {
-            if (newBloodEntry == null)
+            if (newBloodEntry == null )
             {
                 return BadRequest("Entry should not be null.");
+            }
+
+            if (!BloodTypeRegex.IsMatch(newBloodEntry.BloodType))
+            {
+                return BadRequest("Invalid blood type. Valid types are A+, A-, B+, B-, AB+, AB-, O+, O-.");
             }
             if (newBloodEntry.Age < 18 || newBloodEntry.Age > 65)
             {
@@ -74,10 +85,12 @@ namespace BloodBankAPI.Controllers
             {
                 return BadRequest("Quanity should be Greater than 0");
             }
-            if (string.IsNullOrEmpty(newBloodEntry.BloodType))
+
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Blood Type Should not be Null");
+                return BadRequest(ModelState);
             }
+            
 
             newBloodEntry.Id = bloodEntries.Count + 1;
             bloodEntries.Add(newBloodEntry);
@@ -95,7 +108,13 @@ namespace BloodBankAPI.Controllers
             var queryEntry = bloodEntries.Find(entry => entry.Id == Id);
             if (queryEntry == null)
             {
-                return NoContent();
+                return NotFound($"Entry with ID {Id} not found.");
+            }
+            
+
+            if (!BloodTypeRegex.IsMatch(entryToBeUpdated.BloodType))
+            {
+                return BadRequest("Invalid blood type. Valid types are A+, A-, B+, B-, AB+, AB-, O+, O-.");
             }
             queryEntry.DonorName = entryToBeUpdated.DonorName;
             queryEntry.Quantity = entryToBeUpdated.Quantity;
@@ -123,5 +142,128 @@ namespace BloodBankAPI.Controllers
 
             return Ok($"Blood Entry with id {Id} is successfully deleted.....");
         }
+
+        // Pagination
+
+        [HttpGet("page")]
+        public ActionResult<IEnumerable<BloodBankEntry>> BloodEntryPagination(int pageNumber, int pageSize)
+        {
+            if(pageSize <= 0 || pageNumber <= 0)
+            {
+                return BadRequest("Size and page should be greater than 0...");
+            }
+            var paginatedEntries = bloodEntries.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+            return Ok(paginatedEntries);
+        }
+
+        // Search Functionality By Blood
+        [HttpGet("search")]
+        public ActionResult<IEnumerable<BloodBankEntry>> SearchBloodEntry(string? bloodType = null, string? status = null, string? donorName = null)
+        {
+            var filteredBloodEntries = bloodEntries.AsQueryable();
+            if (!string.IsNullOrEmpty(bloodType))
+            {
+                filteredBloodEntries = filteredBloodEntries.Where(entry => entry.BloodType.Equals(bloodType, StringComparison.OrdinalIgnoreCase));
+            }
+            else if (!string.IsNullOrEmpty(status))
+            {
+                filteredBloodEntries = filteredBloodEntries.Where(entry => entry.Status.Equals(status, StringComparison.OrdinalIgnoreCase));
+            }
+            else if (!string.IsNullOrEmpty(donorName))
+            {
+                filteredBloodEntries = filteredBloodEntries.Where(entry => entry.DonorName.StartsWith(donorName, StringComparison.OrdinalIgnoreCase));
+            }
+            else
+            {
+                return NotFound();
+            }
+            
+
+            
+
+            return Ok(filteredBloodEntries.ToList());
+            
+
+        }
+
+        // =============================== Bonus Task ===============================
+
+
+        // sort
+        [HttpGet("sort")]
+        public ActionResult<IEnumerable<BloodBankEntry>> sortBloodEntry(string? by = null, string order = "asc")
+        {
+            var sortedList = bloodEntries.AsQueryable();
+            if (by != null && by.Equals("bloodtype", StringComparison.OrdinalIgnoreCase))
+            {
+                
+                if (order.Equals("desc", StringComparison.OrdinalIgnoreCase))
+                {
+                    sortedList = sortedList.OrderByDescending(entry => entry.BloodType);
+                }
+                else
+                {
+                    sortedList = sortedList.OrderBy(entry => entry.BloodType);
+                }
+
+                return Ok(sortedList);
+
+            } else if (by != null && by.Equals("CollectionDate", StringComparison.OrdinalIgnoreCase))
+            {
+                if (order.Equals("desc", StringComparison.OrdinalIgnoreCase))
+                {
+                    sortedList = sortedList.OrderByDescending(entry => entry.CollectionDate);
+                }
+                else
+                {
+                    sortedList = sortedList.OrderBy(entry => entry.CollectionDate);
+                }
+
+                return Ok(sortedList);
+            }
+
+
+            return BadRequest("Not a valid type of sorting...");
+        }
+
+        // Filter Functionality......
+
+        [HttpGet("filter")]
+
+        public ActionResult<IEnumerable<BloodBankEntry>> FilterBloodEntry(string? bloodType = null, string? status = null, string? donorName = null)
+        {
+            
+            var filteredBloodEntries = bloodEntries.AsQueryable();
+
+            
+            if (!string.IsNullOrEmpty(bloodType))
+            {
+                filteredBloodEntries = filteredBloodEntries.Where(entry =>
+                    entry.BloodType.Equals(bloodType, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                filteredBloodEntries = filteredBloodEntries.Where(entry =>
+                    entry.Status.Equals(status, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (!string.IsNullOrEmpty(donorName))
+            {
+                filteredBloodEntries = filteredBloodEntries.Where(entry =>
+                    entry.DonorName.StartsWith(donorName, StringComparison.OrdinalIgnoreCase));
+            }
+
+            
+            var result = filteredBloodEntries.ToList();
+            if (!result.Any())
+            {
+                return NotFound("No matching blood entries found.");
+            }
+
+            return Ok(result);
+        }
+
     }
 }
