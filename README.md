@@ -47,6 +47,7 @@ This model represents a blood donation entry in the system. It contains the foll
 
 
 
+
 2. **Get all blood bank entries**
    - `GET https://localhost:7065/api/BloodBank`
      ![image](https://github.com/user-attachments/assets/ae27f396-aec4-472a-9fc6-69b696be1462)
@@ -54,6 +55,7 @@ This model represents a blood donation entry in the system. It contains the foll
       ---
      
      ![image](https://github.com/user-attachments/assets/66889fad-7141-4819-b8e0-4f548f9a0683)
+
 
 
 3. **Get a specific blood entry by ID**
@@ -90,8 +92,6 @@ This model represents a blood donation entry in the system. It contains the foll
      ![image](https://github.com/user-attachments/assets/f1acc441-1e05-4fc5-a3fe-4afa6206ac1b)
 
    
-     
- 
 
 6. **Delete a blood entry**
    - `DELETE /api/BloodBank/{id}`
@@ -137,12 +137,27 @@ This model represents a blood donation entry in the system. It contains the foll
 3. **Search blood entries by status**
    - `GET /api/bloodbank/search?status={status}`
    - Example:
-     - `GET /api/bloodbank/search?status=Available`
+     - `GET /api/bloodbank/search?status=Expired`
 
-4. **Search blood entries by donor name**
+   ![image](https://github.com/user-attachments/assets/6746eafe-fa8b-4117-88b2-77204e8fb741)
+
+   ---
+
+   ![image](https://github.com/user-attachments/assets/aaec9901-9c9c-4e53-bbcc-7362d7befa5d)
+
+
+5. **Search blood entries by donor name**
    - `GET /api/bloodbank/search?donorName={donorName}`
    - Example:
      - `GET /api/bloodbank/search?donorName=John`
+
+   ![image](https://github.com/user-attachments/assets/5a5837bb-4e3f-45c1-bc6c-e959d876bece)
+
+   ---
+
+   ![image](https://github.com/user-attachments/assets/b14b3ab8-eefd-467e-85db-130b2657590b)
+
+
 
 ## Setup Instructions
 
@@ -151,8 +166,4 @@ This model represents a blood donation entry in the system. It contains the foll
 - Visual Studio or Visual Studio Code
 - Postman for testing API endpoints
 
-### Steps to Run the Project
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/blood-bank-api.git
-   cd blood-bank-api
+
