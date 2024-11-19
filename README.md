@@ -7,6 +7,15 @@ The Blood Bank API is a RESTful service designed to manage blood donations and t
 - **CRUD Operations**: Add, retrieve, update, and delete blood bank entries.
 - **Pagination**: Retrieve blood bank entries in paginated format.
 - **Search Functionality**: Search blood bank entries by donor name, blood type, or status.
+- **Blood Type Regex Validation**:
+     - Implementation:
+       ``` C#
+       private static Regex BloodTypeRegex = new Regex(@"^(A|B|AB|O)[+-]$");
+
+       if (!BloodTypeRegex.IsMatch(newBloodEntry.BloodType)){
+             return BadRequest("Invalid blood type. Valid types are A+, A-, B+, B-, AB+, AB-, O+, O-.");
+       }
+       ```
 
 ## Model: `BloodBankEntry`
 This model represents a blood donation entry in the system. It contains the following fields:
@@ -19,6 +28,8 @@ This model represents a blood donation entry in the system. It contains the foll
 - `CollectionDate`: Date when the blood was collected.
 - `ExpirationDate`: Expiration date for the blood unit.
 - `Status`: Current status of the blood entry (Available, Requested, Expired).
+
+
 
 ## Endpoints
 
