@@ -173,7 +173,9 @@ This model represents a blood donation entry in the system. It contains the foll
 ### Sort Functionality
 
 1. **Sort By Blood Type**
-   - `GET /api/BloodBank/sort?by=bloodtype&order=desc`
+   - `GET /api/BloodBank/sort`
+   - Example:
+     - `GET /api/BloodBank/sort?by=bloodtype&order=des`
    - params: Ascending By Default, Can be given descending value as well...
    - ..........................................................  Ascending  ..........................................................
 
@@ -190,7 +192,9 @@ This model represents a blood donation entry in the system. It contains the foll
 
 
 2. **Sort By Collection Date**
-   - `GET /api/BloodBank/sort?by=CollectionDate&order=desc`
+   - `GET /api/BloodBank/sort`
+   - Example:
+     - `GET /api/BloodBank/sort?by=CollectionDate&order=desc`
    - ..........................................................  Descending  ..........................................................
 
      ![image](https://github.com/user-attachments/assets/309aa05e-af5b-45e5-b94f-5fcf9d005ffa)
@@ -202,9 +206,19 @@ This model represents a blood donation entry in the system. It contains the foll
 
 ### Filter Functionality
 
+- `GET /api/BloodBank/filter`
+- Example:
+   - `GET /api/BloodBank/filter?bloodType=A-&donorName=Jack&status=Expired`
+- Params: Takes multiple optional parameters like BloodType, Status, Donor Name,etc. Filters the entries based on all these parameters.
+
+  ![image](https://github.com/user-attachments/assets/21924f16-5ec5-4336-9f16-2a79347f36f5)
+
+  ---
+
+  ![image](https://github.com/user-attachments/assets/d524d31c-e657-4c14-bab6-dea6f2d32a8f)
 
 
-  
+
 ## Setup Instructions
 
 ### Prerequisites
