@@ -133,40 +133,43 @@ This model represents a blood donation entry in the system. It contains the foll
 ### Search Functionality
 
 1. **Search blood entries by blood type**
-   - `GET /api/bloodbank/search?bloodType={bloodType}`
+   - `GET /api/bloodbank/searchByBlood?bloodType={bloodType}`
    - Example:
-     - `GET /api/bloodbank/search?bloodType=O-`
+     - `GET /api/bloodbank/searchByBlood?bloodType=O-`
 
-   ![image](https://github.com/user-attachments/assets/05fe58a9-ebd1-4ff9-afd1-a7023be6b177)
+   ![image](https://github.com/user-attachments/assets/9a8d2c08-a830-4b23-ad51-f9ffc9646a12)
+
 
    ---
 
-   ![image](https://github.com/user-attachments/assets/45fd9b85-8073-4ac5-ad28-e5b84c264c91)
+   ![image](https://github.com/user-attachments/assets/108b2d28-3ec5-4f2f-9fc2-738e8b01cf22)
 
 
 
 3. **Search blood entries by status**
-   - `GET /api/bloodbank/search?status={status}`
+   - `GET /api/bloodbank/searchByStatus?status={status}`
    - Example:
-     - `GET /api/bloodbank/search?status=Expired`
+     - `GET /api/bloodbank/searchByStatus?status=Expired`
 
-   ![image](https://github.com/user-attachments/assets/6746eafe-fa8b-4117-88b2-77204e8fb741)
+   ![image](https://github.com/user-attachments/assets/508d74fc-fc89-40e2-b56c-aac4578cc303)
 
    ---
 
-   ![image](https://github.com/user-attachments/assets/aaec9901-9c9c-4e53-bbcc-7362d7befa5d)
+   ![image](https://github.com/user-attachments/assets/f322f97d-2cfe-4b61-b9e2-dfa917ecf57f)
+
 
 
 5. **Search blood entries by donor name**
-   - `GET /api/bloodbank/search?donorName={donorName}`
+   - `GET /api/bloodbank/searchByDonorName?donorName={donorName}`
    - Example:
-     - `GET /api/bloodbank/search?donorName=John`
+     - `GET /api/bloodbank/searchByDonorName?donorName=George`
 
-   ![image](https://github.com/user-attachments/assets/5a5837bb-4e3f-45c1-bc6c-e959d876bece)
+   ![image](https://github.com/user-attachments/assets/d4b12189-61b9-4c57-9adc-c97f8091f3d4)
+
 
    ---
 
-   ![image](https://github.com/user-attachments/assets/b14b3ab8-eefd-467e-85db-130b2657590b)
+   ![image](https://github.com/user-attachments/assets/c6d9a33b-970c-4d6b-9162-dd7314cab60b)
 
 
 
