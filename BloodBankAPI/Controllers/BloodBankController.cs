@@ -158,33 +158,72 @@ namespace BloodBankAPI.Controllers
         }
 
         // Search Functionality By Blood
-        [HttpGet("search")]
-        public ActionResult<IEnumerable<BloodBankEntry>> SearchBloodEntry(string? bloodType = null, string? status = null, string? donorName = null)
+        [HttpGet("searchByBlood")]
+        public ActionResult<IEnumerable<BloodBankEntry>> SearchByBloodType(string bloodType)
         {
             var filteredBloodEntries = bloodEntries.AsQueryable();
-            if (!string.IsNullOrEmpty(bloodType))
-            {
-                filteredBloodEntries = filteredBloodEntries.Where(entry => entry.BloodType.Equals(bloodType, StringComparison.OrdinalIgnoreCase));
-            }
-            else if (!string.IsNullOrEmpty(status))
-            {
-                filteredBloodEntries = filteredBloodEntries.Where(entry => entry.Status.Equals(status, StringComparison.OrdinalIgnoreCase));
-            }
-            else if (!string.IsNullOrEmpty(donorName))
-            {
-                filteredBloodEntries = filteredBloodEntries.Where(entry => entry.DonorName.StartsWith(donorName, StringComparison.OrdinalIgnoreCase));
-            }
-            else
+            if (string.IsNullOrEmpty(bloodType))
             {
                 return NotFound();
             }
-            
 
-            
+            if (!BloodTypeRegex.IsMatch(bloodType))
+            {
+                return BadRequest("Invalid blood type. Valid types are A+, A-, B+, B-, AB+, AB-, O+, O-.");
+            }
+            filteredBloodEntries = filteredBloodEntries.Where(entry => entry.BloodType.Equals(bloodType, StringComparison.OrdinalIgnoreCase));
+
+            if (filteredBloodEntries == null)
+            {
+                return Content($"No entries exist with blood type {bloodType}");
+            }
+
 
             return Ok(filteredBloodEntries.ToList());
             
 
+        }
+        [HttpGet("searchByStatus")]
+        // Search Functionality By status
+        public ActionResult<IEnumerable<BloodBankEntry>> SearchByStatus(string status)
+        {
+            if (string.IsNullOrEmpty(status))
+            {
+                return NotFound();
+            }
+            var filteredBloodEntries = bloodEntries.AsQueryable();
+
+            filteredBloodEntries = filteredBloodEntries.Where(entry => entry.Status.Equals(status, StringComparison.OrdinalIgnoreCase));
+            
+            if(filteredBloodEntries == null)
+            {
+                return Content($"No entries exist with status {status}");   
+            }
+
+            return Ok(filteredBloodEntries.ToList());
+        }
+
+        // Search Functionality By Donar Name
+        [HttpGet("searchByDonorName")]
+        public ActionResult<IEnumerable<BloodBankEntry>> SearchByDonarName(string donorName)
+        {
+            if (string.IsNullOrEmpty(donorName))
+            {
+                return NotFound();
+            }
+
+            var filteredBloodEntries = bloodEntries.AsQueryable();
+
+
+            filteredBloodEntries = filteredBloodEntries.Where(entry => entry.DonorName.StartsWith(donorName, StringComparison.OrdinalIgnoreCase));
+
+            if(filteredBloodEntries == null)
+            {
+                return Content($"No entries exist with donar name ${donorName}" );
+            }
+
+            return Ok(filteredBloodEntries.ToList());
+            
         }
 
         // =============================== Bonus Task ===============================
@@ -239,6 +278,11 @@ namespace BloodBankAPI.Controllers
             
             if (!string.IsNullOrEmpty(bloodType))
             {
+                if (!BloodTypeRegex.IsMatch(bloodType))
+                {
+                    return BadRequest("Invalid blood type. Valid types are A+, A-, B+, B-, AB+, AB-, O+, O-.");
+                }
+
                 filteredBloodEntries = filteredBloodEntries.Where(entry =>
                     entry.BloodType.Equals(bloodType, StringComparison.OrdinalIgnoreCase));
             }
