@@ -3,6 +3,9 @@
 ## Overview
 The Blood Bank API is a RESTful service designed to manage blood donations and their status. It allows users to perform CRUD operations, pagination, and search functionalities on blood bank records. The API is built using C# and ASP.NET Core.
 
+## Postman
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://god.gw.postman.com/run-collection/25790862-9dfd5462-ae8b-492a-9497-27698a3b748f?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D25790862-9dfd5462-ae8b-492a-9497-27698a3b748f%26entityType%3Dcollection%26workspaceId%3D0d022c77-fde7-44f4-b409-57e85ddf2d8c)
+
 ## Features
 - **CRUD Operations**: Add, retrieve, update, and delete blood bank entries.
 - **Pagination**: Retrieve blood bank entries in paginated format.
